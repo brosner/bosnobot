@@ -20,6 +20,8 @@ class IrcBot(irc.IRCClient):
             self.channel_pool.join(channel)
     
     def joined(self, channel):
+        channel = self.channel_pool.get(channel)
+        channel.joined = True
         print "joined %s" % channel
     
     def privmsg(self, user, channel, msg):

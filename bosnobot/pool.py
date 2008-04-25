@@ -30,7 +30,6 @@ class ChannelPool(object):
         """
         self.channels[channel] = Channel(channel, self.bot)
         self.bot.join(channel)
-        self.channels[channel].joined = True
     
     def _joined_all(self):
         """
