@@ -2,11 +2,12 @@
 from twisted.words.protocols import irc
 from twisted.internet import protocol, reactor
 
+from bosnobot.conf import settings
 from bosnobot.database import session
 from bosnobot.database import Channel, Message
 
 class IrcBot(irc.IRCClient):
-    nickname = "ihatethaub"
+    nickname = settings.BOT_NICKNAME
     
     def signedOn(self):
         # once signed on to the irc server join each channel.

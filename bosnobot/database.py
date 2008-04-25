@@ -2,7 +2,9 @@
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker, mapper, relation
 
-engine = create_engine("postgres://localhost/oebfare_app", echo=True)
+from bosnobot.conf import settings
+
+engine = create_engine(settings.DATABASE_URI, echo=True)
 metadata = MetaData(bind=engine)
 
 Session = sessionmaker(bind=engine)
