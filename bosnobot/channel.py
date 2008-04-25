@@ -7,6 +7,10 @@ class Channel(object):
     def __init__(self, name, bot):
         self.name = name
         self.bot = bot
+        self.joined = False
+    
+    def __repr__(self):
+        return "<Channel: %s>" % self.name
     
     def msg(self, message):
         """

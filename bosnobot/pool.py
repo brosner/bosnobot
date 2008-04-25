@@ -1,4 +1,6 @@
 
+import time
+
 from bosnobot.channel import Channel
 
 class ChannelPool(object):
@@ -13,9 +15,32 @@ class ChannelPool(object):
         for channel in self.channels.itervalues():
             yield channel
     
+    def __getitem__(self, channel):
+        return self.channels[channel]
+    
+    def get(self, channel):
+        try:
+            return self[channel]
+        except KeyError:
+            return None
+    
     def join(self, channel):
         """
         Joins a channel and adds to the pool.
         """
         self.channels[channel] = Channel(channel, self.bot)
         self.bot.join(channel)
+        self.channels[channel].joined = True
+    
+    def _joined_all(self):
+        """
+        Returns True if all channels in the pool have been joined. Otherwise,
+        return False.
+        """
+        if not self.channels:
+            return False
+        for channel in self:
+            if not channel.joined:
+                return False
+        return True
+    joined_all = property(_joined_all)

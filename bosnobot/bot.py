@@ -20,10 +20,12 @@ class IrcBot(irc.IRCClient):
             self.channel_pool.join(channel)
     
     def joined(self, channel):
-        pass
+        print "joined %s" % channel
     
     def privmsg(self, user, channel, msg):
         print repr((user, channel, msg))
+        if self.channel_pool.joined_all:
+            channel = self.channel_pool.get(channel)
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcBot
