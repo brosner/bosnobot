@@ -1,3 +1,81 @@
-bosnobot is Python.
-Python rocks.
-That is all.
+
+bosnobot
+========
+
+bosnobot is a Python IRC bot. It will pretty much do whatever you want it to
+do. It very easy to get up and running.
+
+Dependancies
+------------
+
+Like most software there will be some dependancy. bosnobot currently depends
+on:
+
+    * Python
+    * SQLAlchemy
+    * Twisted
+
+At this point I am not 100% sure what versions it has a dependancy on but I am
+running the most recent of those locally.
+
+Current Status
+--------------
+
+bosnobot is currently in development. Right now directions will be based on
+development version. Once a released version this document will be adjusted to
+reflect the latest release.
+
+Installation
+------------
+
+To get bosnobot on your local machine you will need to grab a clone of it
+from GitHub. To do this you should have git installed on your system. Once
+that is installed you can execute::
+
+    git clone git://github.com/brosner/bosnobot.git
+
+This will create a new directory in your current working directory named
+``bosnobot``. You will then need to get bosnobot on your PYTHONPATH::
+
+    export PYTHONPATH=`pwd`/bosnobot
+
+You are all set! In the future there will be a provided setup.py file that can
+take care doing the installation into site-packages.
+
+Configuration
+-------------
+
+To get up and running you will need to have a settings file read to rock and
+roll. This file is a Python script that sets up the configuration for the bot.
+
+Currently this file must be set in an environment variable,
+``BOSNOBOT_SETTINGS_MODULE``. Create the file ``bosnobot_settings.py``
+somewhere on your PYTHONPATH. Then you can execute::
+    
+    export BOSNOBOT_SETTINGS_MODULE=bosnobot_settings
+
+The required values in this file are:
+
+    * DATABASE_URI - This is passed to the SQLAlchemy create_engine funciton.
+      You can use any database that is supported by SQLAlchemy.
+    
+    * BOT_NICKNAME - This will be the nickname that the bot uses to identify
+      itself on the IRC server.
+    
+    * BOT_CHANNELS - A list of channels the bot should auto-join once
+      connected to the server.
+    
+    * BOT_IRC_SERVER - The IRC server the bot should establish a connection.
+    
+    * BOT_IRC_PORT - The port on which ``BOT_IRC_SERVER`` listens on. This is
+      typically 6667.
+
+Once you have your configuration file read to go you are ready to run the bot.
+
+RUNNING THE BOT
+---------------
+
+To run the bot based on its installation above you can simply execute::
+
+    python -m bosnobot
+
