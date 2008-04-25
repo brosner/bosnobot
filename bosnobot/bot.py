@@ -1,9 +1,9 @@
 
 from twisted.words.protocols import irc
-from twisted.internet import protocol
+from twisted.internet import protocol, reactor
 
-from database import session
-from database import Channel, Message
+from bosnobot.database import session
+from bosnobot.database import Channel, Message
 
 class IrcBot(irc.IRCClient):
     nickname = "ihatethaub"
