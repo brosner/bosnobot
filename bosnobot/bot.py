@@ -23,9 +23,6 @@ class IrcBot(irc.IRCClient):
         pass
     
     def privmsg(self, user, channel, msg):
-        if msg.startswith("join"):
-            _, channel = msg.split()
-            self.channel_pool.join(channel)
         print repr((user, channel, msg))
 
 class IrcBotFactory(protocol.ClientFactory):
