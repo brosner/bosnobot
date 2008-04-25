@@ -3,21 +3,29 @@ from twisted.words.protocols import irc
 from twisted.internet import protocol, reactor
 
 from bosnobot.conf import settings
-from bosnobot.database import session
-from bosnobot.database import Channel, Message
+from bosnobot.pool import ChannelPool
+from bosnobot.channel import Channel
+from bosnobot.message import Message
 
 class IrcBot(irc.IRCClient):
     nickname = settings.BOT_NICKNAME
+    channel_pool = ChannelPool
+    
+    def __init__(self):
+        self.channel_pool = self.channel_pool(self)
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
         for channel in self.factory.channels:
-            self.join(channel)
+            self.channel_pool.join(channel)
     
     def joined(self, channel):
         pass
     
     def privmsg(self, user, channel, msg):
+        if msg.startswith("join"):
+            _, channel = msg.split()
+            self.channel_pool.join(channel)
         print repr((user, channel, msg))
 
 class IrcBotFactory(protocol.ClientFactory):

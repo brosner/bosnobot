@@ -12,7 +12,6 @@ Like most software there will be some dependancy. bosnobot currently depends
 on:
 
     * Python
-    * SQLAlchemy
     * Twisted
 
 At this point I am not 100% sure what versions it has a dependancy on but I am
