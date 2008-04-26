@@ -1,12 +1,13 @@
 
+========
 bosnobot
 ========
 
 bosnobot is a Python IRC bot. It will pretty much do whatever you want it to
-do. It very easy to get up and running.
+do. It is very easy to get up and running.
 
 Dependancies
-------------
+============
 
 Like most software there will be some dependancy. bosnobot currently depends
 on:
@@ -16,14 +17,14 @@ on:
       with 8.0.1.)
 
 Current Status
---------------
+==============
 
 bosnobot is currently in development. Right now directions will be based on
 development version. Once a released version this document will be adjusted to
 reflect the latest release.
 
 Installation
-------------
+=============
 
 To get bosnobot on your local machine you will need to grab a clone of it
 from GitHub. To do this you should have git installed on your system. Once
@@ -40,41 +41,60 @@ You are all set! In the future there will be a provided setup.py file that can
 take care doing the installation into site-packages.
 
 Configuration
--------------
+=============
 
 To get up and running you will need to have a settings file read to rock and
 roll. This file is a Python script that sets up the configuration for the bot.
 
 Currently this file must be set in an environment variable,
 ``BOSNOBOT_SETTINGS_MODULE``. Create the file ``bosnobot_settings.py``
-somewhere on your PYTHONPATH. Then you can execute::
+somewhere on your ``PYTHONPATH``. Then you can execute::
     
     export BOSNOBOT_SETTINGS_MODULE=bosnobot_settings
 
-The required values in this file are:
-    
-    * BOT_NICKNAME - This will be the nickname that the bot uses to identify
-      itself on the IRC server.
-    
-    * BOT_CHANNELS - A list of channels the bot should auto-join once
-      connected to the server.
-    
-    * BOT_IRC_SERVER - The IRC server the bot should establish a connection.
-    
-    * BOT_IRC_PORT - The port on which ``BOT_IRC_SERVER`` listens on. This is
-      typically 6667.
+BOT_NICKNAME
+------------
 
-Once you have your configuration file read to go you are ready to run the bot.
+Default: ``''`` (Empty string)
+
+This will be the nickname that the bot uses to identify itself on the IRC
+server.
+
+BOT_CHANNELS
+------------
+
+Default: ``()`` (Empty tuple)
+
+A tuple of channels the bot should auto-join once connected to the server.
+This could potentionally look like::
+
+    BOT_CHANNELS = (
+        "#django",
+    )
+
+BOT_IRC_SERVER
+--------------
+
+Default: ``''`` (Empty string)
+
+The IRC server the bot should establish a connection.
+
+BOT_IRC_PORT
+------------
+
+Default: ``6667``
+
+The port on which ``BOT_IRC_SERVER`` listens on.
 
 Running the Bot
----------------
+===============
 
 To run the bot based on its installation above you can simply execute::
 
     python -m bosnobot
 
 Contributing
-------------
+============
 
 When others contribute to an open-source project it makes it that much better.
 If you are so inclined to assist me with making bosnobot even better here is
