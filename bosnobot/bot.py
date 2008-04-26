@@ -30,7 +30,12 @@ class IrcBot(irc.IRCClient):
     def privmsg(self, user, channel, msg):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
-            self.message_dispatcher.dispatch(Message(user, channel, msg, self))
+            self.message_dispatcher.dispatch(Message(user, channel, msg), self)
+    
+    def msg(self, user, message, length=None):
+        print "sending message: %s" % message
+        irc.IRCClient.msg(self, user, message, length)
+        print "sent message: %s" % message
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcBot
