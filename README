@@ -11,11 +11,9 @@ Dependancies
 Like most software there will be some dependancy. bosnobot currently depends
 on:
 
-    * Python
-    * Twisted
-
-At this point I am not 100% sure what versions it has a dependancy on but I am
-running the most recent of those locally.
+    * Python 2.5.1 (Could work with pre-2.5, but not tested.)
+    * Twisted 2.4 (Twisted 2.4 ships with OS X 10.5, but I have also tested
+      with 8.0.1.)
 
 Current Status
 --------------
