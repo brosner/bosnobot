@@ -73,3 +73,24 @@ To run the bot based on its installation above you can simply execute::
 
     python -m bosnobot
 
+Contributing
+------------
+
+When others contribute to an open-source project it makes it that much better.
+If you are so inclined to assist me with making bosnobot even better here is
+the run down you need to know.
+
+bosnobot is hosted on GitHub. This makes it painless to fork bosnobot for
+development. Grab an account or just click the fork icon on GitHub. This will
+create a copy of the repo for your own use. Then hop into a shell and type::
+
+    git clone git@github.com:<your-user-name>/bosnobot.git
+
+This will give you a local copy. Be sure to read git documentation if you have
+never used it before. I am really telling you what GitHub is doing, so go check
+out their documentation for more information.
+
+Once you have done some super awesome patch you will want to notify brosner
+that your work is done. You can issue a pull request. This documentation has
+no idea how that works on GitHub. Maybe your first patch is fixing this file.
+
