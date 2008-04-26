@@ -1,6 +1,4 @@
 
-DATABASE_URI = ""
-
 BOT_NICKNAME = ""
 BOT_CHANNELS = []
 BOT_IRC_SERVER = ""

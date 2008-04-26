@@ -54,9 +54,6 @@ somewhere on your PYTHONPATH. Then you can execute::
     export BOSNOBOT_SETTINGS_MODULE=bosnobot_settings
 
 The required values in this file are:
-
-    * DATABASE_URI - This is passed to the SQLAlchemy create_engine funciton.
-      You can use any database that is supported by SQLAlchemy.
     
     * BOT_NICKNAME - This will be the nickname that the bot uses to identify
       itself on the IRC server.
