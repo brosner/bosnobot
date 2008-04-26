@@ -16,13 +16,6 @@ on:
     * Twisted 2.4 (Twisted 2.4 ships with OS X 10.5, but I have also tested
       with 8.0.1.)
 
-Current Status
-==============
-
-bosnobot is currently in development. Right now directions will be based on
-development version. Once a released version this document will be adjusted to
-reflect the latest release.
-
 Installation
 =============
 
@@ -108,6 +101,15 @@ Running the Bot
 To run the bot based on its installation above you can simply execute::
 
     python -m bosnobot
+
+Need more help?
+===============
+
+You can give our mailing list a shot on Google Groups
+(http://groups.google.com/group/bosnobot) or via e-mail
+bosnobot@googlegroups.com.
+
+We also hang out on freenode (irc.freenode.org) on the #bosnobot channel.
 
 Contributing
 ============
