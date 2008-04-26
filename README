@@ -86,6 +86,22 @@ Default: ``6667``
 
 The port on which ``BOT_IRC_SERVER`` listens on.
 
+MESSAGE_HANDLERS
+----------------
+
+Default: ``()`` (Empty tuple)
+
+A tuple of strings that indicate the Python class to use as a message handler.
+bosnobot comes with a few message handlers. Let's say you want to log all
+messages to a database, this would look like::
+
+    MESSAGE_HANDLERS = (
+        "bosnobot.message_handlers.database_logger.DatabaseLogger",
+    )
+
+Be sure to read the message handler documentation before running with scissors
+with this setting. TODO: write that documentation.
+
 Running the Bot
 ===============
 
