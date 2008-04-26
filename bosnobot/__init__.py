@@ -1,4 +1,6 @@
 
+import threading
+
 from twisted.internet import reactor
 
 from bosnobot.conf import settings
