@@ -3,7 +3,6 @@ class Channel(object):
     """
     Represents an IRC channel.
     """
-    
     def __init__(self, name, bot):
         self.name = name
         self.bot = bot
