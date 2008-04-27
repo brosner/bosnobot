@@ -11,12 +11,11 @@ from bosnobot.channel import Channel
 from bosnobot.message import MessageDispatcher, Message
 
 class IrcBot(irc.IRCClient):
-    channel_pool = ChannelPool
-    
+    channel_pool_class = ChannelPool
     nickname = settings.BOT_NICKNAME
     
     def __init__(self):
-        self.channel_pool = self.channel_pool(self)
+        self.channel_pool = self.channel_pool_class(self)
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
@@ -35,7 +34,7 @@ class IrcBot(irc.IRCClient):
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcBot
-    message_dispatcher = MessageDispatcher
+    message_dispatcher_class = MessageDispatcher
     
     def __init__(self, channels):
         self.channels = channels
@@ -45,7 +44,7 @@ class IrcBotFactory(protocol.ClientFactory):
         reactor.stop()
     
     def startFactory(self):
-        self.message_dispatcher = self.message_dispatcher()
+        self.message_dispatcher = self.message_dispatcher_class()
     
     def stopFactory(self):
         self.message_dispatcher.stop()
