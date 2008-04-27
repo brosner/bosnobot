@@ -49,11 +49,11 @@ class MessageDispatcher(object):
     """
     Handles the dispatching of message to the message handlers
     """
-    dispatcher_thread = MessageDispatcherThread
+    dispatcher_thread_class = MessageDispatcherThread
     
     def __init__(self):
         self.queue = Queue()
-        self.thread = self.dispatcher_thread(self.queue)
+        self.thread = self.dispatcher_thread_class(self.queue)
         self.thread.start()
     
     def dispatch(self, message, bot):
