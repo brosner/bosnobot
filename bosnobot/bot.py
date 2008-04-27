@@ -9,13 +9,11 @@ from bosnobot.message import MessageDispatcher, Message
 
 class IrcBot(irc.IRCClient):
     channel_pool = ChannelPool
-    message_dispatcher = MessageDispatcher
     
     nickname = settings.BOT_NICKNAME
     
     def __init__(self):
         self.channel_pool = self.channel_pool(self)
-        self.message_dispatcher = self.message_dispatcher()
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
@@ -30,7 +28,7 @@ class IrcBot(irc.IRCClient):
     def privmsg(self, user, channel, msg):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
-            self.message_dispatcher.dispatch(Message(user, channel, msg), self)
+            self.factory.message_dispatcher.dispatch(Message(user, channel, msg), self)
     
     def msg(self, user, message, length=None):
         print "sending message: %s" % message
@@ -39,6 +37,7 @@ class IrcBot(irc.IRCClient):
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcBot
+    message_dispatcher = MessageDispatcher
     
     def __init__(self, channels):
         self.channels = channels
@@ -46,3 +45,9 @@ class IrcBotFactory(protocol.ClientFactory):
     def clientConnectionFailed(self, connector, reason):
         print "connection failed:", reason
         reactor.stop()
+    
+    def startFactory(self):
+        self.message_dispatcher = self.message_dispatcher()
+    
+    def stopFactory(self):
+        self.message_dispatcher.stop()
