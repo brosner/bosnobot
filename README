@@ -53,6 +53,14 @@ Default: ``''`` (Empty string)
 This will be the nickname that the bot uses to identify itself on the IRC
 server.
 
+BOT_PASSWORD
+------------
+
+Default: ``''`` (Empty string)
+
+The password associated with the nickname to verify your identity on the IRC
+server.
+
 BOT_CHANNELS
 ------------
 

@@ -12,10 +12,12 @@ from bosnobot.message import MessageDispatcher, Message
 
 class IrcBot(irc.IRCClient):
     channel_pool_class = ChannelPool
-    nickname = settings.BOT_NICKNAME
     
-    def __init__(self):
+    def connectionMade(self):
         self.channel_pool = self.channel_pool_class(self)
+        self.nickname = settings.BOT_NICKNAME
+        self.password = settings.BOT_PASSWORD
+        irc.IRCClient.connectionMade(self)
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
