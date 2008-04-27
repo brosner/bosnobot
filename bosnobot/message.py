@@ -1,7 +1,9 @@
 
+import logging
 import threading
 
 from Queue import Queue
+from twisted.python import log
 
 from bosnobot.conf import settings
 
@@ -19,18 +21,18 @@ class MessageDispatcherThread(threading.Thread):
         """
         Initializes the message handlers to be used.
         """
-        print "initializing message handlers"
+        log.msg("Initializing message handlers", logLevel=logging.DEBUG)
         for handler in settings.MESSAGE_HANDLERS:
             bits = handler.split(".")
             module_name = ".".join(bits[:-1])
             try:
                 mod = __import__(module_name, {}, {}, [""])
             except ImportError, e:
-                print "unable to import %s: %s" % (handler, e)
+                log.msg("Unable to import %s: %s" % (handler, e))
             else:
-                print "imported %s" % handler
                 handler_class = getattr(mod, bits[-1])
                 self.handlers.append(handler_class())
+                log.msg("Loaded %s" % handler)
     
     def run(self):
         self._initialize()
@@ -40,10 +42,8 @@ class MessageDispatcherThread(threading.Thread):
                 break
             message, bot = obj
             for handler in self.handlers:
-                print "processing %s" % handler.__class__
                 handler.process_message(message, bot)
-                print "done with %s" % handler.__class__
-        print "stopping message dispatch thread."
+        log.msg("Stopping message dispatch thread.", logLevel=logging.DEBUG)
 
 class MessageDispatcher(object):
     """

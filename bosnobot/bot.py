@@ -1,4 +1,7 @@
 
+import logging
+
+from twisted.python import log
 from twisted.words.protocols import irc
 from twisted.internet import protocol, reactor
 
@@ -23,17 +26,12 @@ class IrcBot(irc.IRCClient):
     def joined(self, channel):
         channel = self.channel_pool.get(channel)
         channel.joined = True
-        print "joined %s" % channel
+        log.msg("joined %s" % channel.name)
     
     def privmsg(self, user, channel, msg):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
             self.factory.message_dispatcher.dispatch(Message(user, channel, msg), self)
-    
-    def msg(self, user, message, length=None):
-        print "sending message: %s" % message
-        irc.IRCClient.msg(self, user, message, length)
-        print "sent message: %s" % message
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcBot
@@ -43,7 +41,7 @@ class IrcBotFactory(protocol.ClientFactory):
         self.channels = channels
     
     def clientConnectionFailed(self, connector, reason):
-        print "connection failed:", reason
+        log.msg("connection failed: %s" % reason)
         reactor.stop()
     
     def startFactory(self):

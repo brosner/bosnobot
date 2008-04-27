@@ -7,7 +7,7 @@ from bosnobot.message import Message
 
 class DatabaseLogger(object):
     def __init__(self):
-        self.engine = create_engine(settings.DATABASE_URI, echo=True)
+        self.engine = create_engine(settings.DATABASE_URI, echo=False)
         self.metadata = MetaData(bind=self.engine)
         self.setup_tables()
         self.session = sessionmaker(bind=self.engine)()
