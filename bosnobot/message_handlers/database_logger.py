@@ -23,6 +23,6 @@ class DatabaseLogger(object):
         # setup tables
         self.metadata.create_all()
         
-    def process_message(self, message, bot):
+    def process_message(self, message):
         self.session.save(message)
         self.session.commit()

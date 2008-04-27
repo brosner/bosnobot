@@ -37,12 +37,11 @@ class MessageDispatcherThread(threading.Thread):
     def run(self):
         self._initialize()
         while True:
-            obj = self.queue.get()
-            if obj == "stop":
+            message = self.queue.get()
+            if message == "stop":
                 break
-            message, bot = obj
             for handler in self.handlers:
-                handler.process_message(message, bot)
+                handler.process_message(message)
         log.msg("Stopping message dispatch thread.", logLevel=logging.DEBUG)
 
 class MessageDispatcher(object):
@@ -56,11 +55,11 @@ class MessageDispatcher(object):
         self.thread = self.dispatcher_thread_class(self.queue)
         self.thread.start()
     
-    def dispatch(self, message, bot):
+    def dispatch(self, message):
         """
         Takes the given message and puts it on the queue for dispatching.
         """
-        self.queue.put((message, bot))
+        self.queue.put(message)
     
     def stop(self):
         """
