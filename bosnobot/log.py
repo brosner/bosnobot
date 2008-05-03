@@ -1,6 +1,8 @@
 
 import logging
 
+from twisted.python.log import addObserver, removeObserver
+
 def _safeFormat(fmtString, fmtDict):
     """
     Try to format the string C{fmtString} using C{fmtDict} arguments,
