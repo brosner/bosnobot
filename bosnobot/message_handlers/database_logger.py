@@ -31,8 +31,8 @@ class DatabaseLogger(object):
             Column("nickname", String(19)),
             Column("text", Text),
             Column("logged", DateTime, default=datetime.now),
-            Column("is_action", Boolean),
-            Column("is_blocked", Boolean))
+            Column("is_action", Boolean, default=False),
+            Column("is_blocked", Boolean, default=False))
         mapper(Message, messages_table, properties={
             "message": messages_table.c.text,
         })
