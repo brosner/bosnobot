@@ -1,6 +1,7 @@
 
 import logging
 
+from twisted.python import reflect
 from twisted.python.log import addObserver, removeObserver
 
 def _safeFormat(fmtString, fmtDict):
