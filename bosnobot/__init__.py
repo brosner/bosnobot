@@ -8,6 +8,7 @@ from twisted.internet import reactor
 
 from bosnobot.conf import settings
 from bosnobot.bot import IrcBotFactory
+from bosnobot.log import PythonLoggingObserver
 
 def main_loop():
     factory = IrcBotFactory(settings.BOT_CHANNELS)
@@ -16,7 +17,7 @@ def main_loop():
     reactor.run()
 
 def setup_logging():
-    observer = log.PythonLoggingObserver()
+    observer = PythonLoggingObserver()
     observer.start()
     # configure logging in python
     logging.basicConfig(
