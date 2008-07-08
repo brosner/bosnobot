@@ -12,6 +12,9 @@ class ChannelPool(object):
         self.bot = bot
     
     def __iter__(self):
+        """
+        An iterator for the ChannelPool.
+        """
         for channel in self.channels.itervalues():
             yield channel
     
