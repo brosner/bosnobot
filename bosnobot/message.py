@@ -73,6 +73,7 @@ class Message(object):
     """
     def __init__(self, user, channel, message):
         self.user = user
+        self.nickname = user.split("!", 1)[0]
         self.channel = channel
         self.message = message
     
