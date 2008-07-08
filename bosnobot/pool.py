@@ -19,6 +19,9 @@ class ChannelPool(object):
         return self.channels[channel]
     
     def get(self, channel):
+        """
+        Get a channel from the pool failing silently.
+        """
         try:
             return self[channel]
         except KeyError:
