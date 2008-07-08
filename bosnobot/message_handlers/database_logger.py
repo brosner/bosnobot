@@ -27,7 +27,7 @@ class DatabaseLogger(object):
         
         messages_table = Table("irc_message", self.metadata,
             Column("id", Integer, primary_key=True),
-            Column("channel_id", ForeignKey("irc_channel.id")),
+            Column("channel_id", Integer, ForeignKey("irc_channel.id")),
             Column("nickname", String(19)),
             Column("text", Text),
             Column("logged", DateTime, default=datetime.now),
