@@ -16,6 +16,11 @@ on:
     * Twisted 2.4 (Twisted 2.4 ships with OS X 10.5, but I have also tested
       with 8.0.1.)
 
+If you decide you want to use the built-in ``DatabaseLogger`` you will also
+need:
+
+    * SQLAlchemy 0.4.6
+
 Installation
 =============
 
