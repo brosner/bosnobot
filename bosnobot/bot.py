@@ -10,7 +10,7 @@ from bosnobot.pool import ChannelPool
 from bosnobot.channel import Channel
 from bosnobot.message import MessageDispatcher, Message
 
-class IrcBot(irc.IRCClient):
+class IrcProtocol(irc.IRCClient):
     channel_pool_class = ChannelPool
     
     def connectionMade(self):
@@ -18,6 +18,19 @@ class IrcBot(irc.IRCClient):
         self.nickname = settings.BOT_NICKNAME
         self.password = settings.BOT_PASSWORD
         irc.IRCClient.connectionMade(self)
+        self._initialize_bot()
+    
+    def _initialize_bot(self):
+        bits = self.factory.bot_path.split(".")
+        module_name = ".".join(bits[:-1])
+        try:
+            mod = __import__(module_name, {}, {}, [""])
+        except ImportError, e:
+            log.msg("Unable to import %s: %s" % (handler, e))
+        else:
+            bot_class = getattr(mod, bits[-1])
+            self.bot = bot_class(self)
+            log.msg("Loaded %s" % self.factory.bot_path)
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
@@ -34,11 +47,20 @@ class IrcBot(irc.IRCClient):
             channel = self.channel_pool.get(channel)
             self.factory.message_dispatcher.dispatch(Message(user, channel, msg))
 
+class IrcBot(object):
+    def __init__(self, protocol):
+        self.prototcol = protocol
+        self.initialize()
+    
+    def initialize(self):
+        pass
+
 class IrcBotFactory(protocol.ClientFactory):
-    protocol = IrcBot
+    protocol = IrcProtocol
     message_dispatcher_class = MessageDispatcher
     
-    def __init__(self, channels):
+    def __init__(self, bot_path, channels):
+        self.bot_path = bot_path
         self.channels = channels
     
     def clientConnectionFailed(self, connector, reason):

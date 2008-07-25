@@ -11,7 +11,7 @@ from bosnobot.bot import IrcBotFactory
 from bosnobot.log import PythonLoggingObserver
 
 def main_loop():
-    factory = IrcBotFactory(settings.BOT_CHANNELS)
+    factory = IrcBotFactory(settings.BOT, settings.BOT_CHANNELS)
     
     reactor.connectTCP(settings.BOT_IRC_SERVER, settings.BOT_IRC_PORT, factory)
     reactor.run()
