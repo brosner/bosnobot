@@ -20,6 +20,10 @@ class IrcProtocol(irc.IRCClient):
         irc.IRCClient.connectionMade(self)
         self._initialize_bot()
     
+    def connectionLost(self, reason):
+        log.msg("Connection lost")
+        self.bot.shutdown()
+    
     def _initialize_bot(self):
         bits = self.factory.bot_path.split(".")
         module_name = ".".join(bits[:-1])
@@ -49,7 +53,7 @@ class IrcProtocol(irc.IRCClient):
 
 class IrcBot(object):
     def __init__(self, protocol):
-        self.prototcol = protocol
+        self.protocol = protocol
         self.initialize()
     
     def initialize(self):
