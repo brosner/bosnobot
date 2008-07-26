@@ -30,7 +30,7 @@ class IrcProtocol(irc.IRCClient):
         try:
             mod = __import__(module_name, {}, {}, [""])
         except ImportError, e:
-            log.msg("Unable to import %s: %s" % (handler, e))
+            log.msg("Unable to import %s: %s" % (self.factory.bot_path, e))
         else:
             bot_class = getattr(mod, bits[-1])
             self.bot = bot_class(self)
