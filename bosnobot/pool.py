@@ -7,9 +7,9 @@ class ChannelPool(object):
     """
     Handles a pool of IRC channels that the bot will use.
     """
-    def __init__(self, bot):
+    def __init__(self, protocol):
         self.channels = {}
-        self.bot = bot
+        self.protocol = protocol
     
     def __iter__(self):
         """
@@ -34,8 +34,9 @@ class ChannelPool(object):
         """
         Joins a channel and adds to the pool.
         """
-        self.channels[channel] = Channel(channel, self.bot)
-        self.bot.join(channel)
+        self.channels[channel.name] = channel
+        channel.protocol = self.protocol
+        self.protocol.join(channel.name)
     
     def _joined_all(self):
         """

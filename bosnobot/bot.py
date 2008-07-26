@@ -38,8 +38,9 @@ class IrcProtocol(irc.IRCClient):
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
-        for channel in self.factory.channels:
+        for channel in self.bot.channels:
             self.channel_pool.join(channel)
+        self.bot.initialize()
     
     def joined(self, channel):
         channel = self.channel_pool.get(channel)
@@ -54,7 +55,6 @@ class IrcProtocol(irc.IRCClient):
 class IrcBot(object):
     def __init__(self, protocol):
         self.protocol = protocol
-        self.initialize()
     
     def initialize(self):
         pass
