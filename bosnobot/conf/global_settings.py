@@ -1,4 +1,5 @@
 
+BOT = None
 BOT_NICKNAME = ""
 BOT_PASSWORD = ""
 BOT_CHANNELS = []

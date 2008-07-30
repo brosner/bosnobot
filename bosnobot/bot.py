@@ -25,16 +25,20 @@ class IrcProtocol(irc.IRCClient):
         self.bot.shutdown()
     
     def _initialize_bot(self):
-        bits = self.factory.bot_path.split(".")
-        module_name = ".".join(bits[:-1])
-        try:
-            mod = __import__(module_name, {}, {}, [""])
-        except ImportError, e:
-            log.msg("Unable to import %s: %s" % (self.factory.bot_path, e))
+        if self.bot_path is None:
+            self.bot = IrcBot(self)
+            log.msg("Loaded default bot")
         else:
-            bot_class = getattr(mod, bits[-1])
-            self.bot = bot_class(self)
-            log.msg("Loaded %s" % self.factory.bot_path)
+            bits = self.factory.bot_path.split(".")
+            module_name = ".".join(bits[:-1])
+            try:
+                mod = __import__(module_name, {}, {}, [""])
+            except ImportError, e:
+                log.msg("Unable to import %s: %s" % (self.factory.bot_path, e))
+            else:
+                bot_class = getattr(mod, bits[-1])
+                self.bot = bot_class(self)
+                log.msg("Loaded %s" % self.factory.bot_path)
     
     def signedOn(self):
         # once signed on to the irc server join each channel.
