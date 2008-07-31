@@ -1,15 +1,20 @@
 
+import os
 import sys
 import logging
 import threading
 
-from twisted.python import log
+from twisted.python import log, usage
 from twisted.internet import reactor
 from twisted.application import internet
 
-from bosnobot.conf import settings
+from bosnobot.conf import settings, ENVIRON_VARIABLE
 from bosnobot.bot import IrcBotFactory
 from bosnobot.log import PythonLoggingObserver
+
+class Options(usage.Options):
+    synopsis = "HELLO WORLD"
+    optParameters = [["settings", "", None]]
 
 class IrcBotService(internet.TCPClient):
     def __init__(self, *args, **kwargs):
@@ -32,6 +37,10 @@ def setup_logging():
         datefmt = "%m-%d %H:%M")
 
 def main():
+    config = Options()
+    config.parseOptions()
+    if config["settings"]:
+        os.environ[ENVIRON_VARIABLE] = config["settings"]
     setup_logging()
     main_loop()
 
