@@ -59,6 +59,9 @@ class IrcProtocol(irc.IRCClient):
 class IrcBot(object):
     def __init__(self, protocol):
         self.protocol = protocol
+        self.channels = []
+        for channel in settings.BOT_CHANNELS:
+            self.channels.append(Channel(channel))
     
     def initialize(self):
         pass
