@@ -25,7 +25,7 @@ class IrcProtocol(irc.IRCClient):
         self.bot.shutdown()
     
     def _initialize_bot(self):
-        if self.bot_path is None:
+        if self.factory.bot_path is None:
             self.bot = IrcBot(self)
             log.msg("Loaded default bot")
         else:
