@@ -11,6 +11,14 @@ class Message(object):
     
     def __str__(self):
         return self.message
+    
+    def as_dict(self):
+        return {
+            "kind": "message",
+            "nickname": self.nickname,
+            "channel": self.channel.name,
+            "message": self.message,
+        }
 
 class UserJoined(object):
     def __init__(self, user, channel):
@@ -20,6 +28,13 @@ class UserJoined(object):
     
     def __str__(self):
         return "%s joined %s" % (self.nickname, self.channel)
+    
+    def as_dict(self):
+        return {
+            "kind": "join",
+            "nickname": self.nickname,
+            "channel": self.channel.name,
+        }
 
 class UserLeft(object):
     def __init__(self, user, channel):
@@ -29,6 +44,13 @@ class UserLeft(object):
     
     def __str__(self):
         return "%s left %s" % (self.nickname, self.channel)
+    
+    def as_dict(self):
+        return {
+            "kind": "leave",
+            "nickname": self.nickname,
+            "channel": self.channel.name,
+        }
 
 class UserKicked(object):
     def __init__(self, kickee, channel, kicker, message):
@@ -41,3 +63,12 @@ class UserKicked(object):
         return "%s was kicked from %s by %s (%s)" % (
             self.kickee, self.channel, self.kicker, self.message,
         )
+    
+    def as_dict(self):
+        return {
+            "kind": "kick",
+            "kickee": self.kickee,
+            "channel": self.channel.name,
+            "kicker": self.kicker,
+            "messgae": self.message,
+        }
