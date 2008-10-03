@@ -66,6 +66,3 @@ class EventDispatcher(object):
         Stops the event dispatcher.
         """
         self.queue.put("stop")
-
-class Event(object):
-    pass

@@ -1,7 +1,5 @@
 
-from bosnobot.event import Event
-
-class Message(Event):
+class Message(object):
     """
     Represents a message sent over IRC.
     """
