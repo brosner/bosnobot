@@ -8,7 +8,8 @@ from twisted.internet import protocol, reactor
 from bosnobot.conf import settings
 from bosnobot.pool import ChannelPool
 from bosnobot.channel import Channel
-from bosnobot.message import MessageDispatcher, Message
+from bosnobot.event import EventDispatcher
+from bosnobot.message import Message
 
 class IrcProtocol(irc.IRCClient):
     channel_pool_class = ChannelPool
@@ -54,7 +55,7 @@ class IrcProtocol(irc.IRCClient):
     def privmsg(self, user, channel, msg):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
-            self.factory.message_dispatcher.dispatch(Message(user, channel, msg))
+            self.factory.event_dispatcher.dispatch(Message(user, channel, msg))
 
 class IrcBot(object):
     def __init__(self, protocol):
@@ -71,7 +72,7 @@ class IrcBot(object):
 
 class IrcBotFactory(protocol.ClientFactory):
     protocol = IrcProtocol
-    message_dispatcher_class = MessageDispatcher
+    event_dispatcher_class = EventDispatcher
     
     def __init__(self, bot_path, channels):
         self.bot_path = bot_path
@@ -82,7 +83,7 @@ class IrcBotFactory(protocol.ClientFactory):
         reactor.stop()
     
     def startFactory(self):
-        self.message_dispatcher = self.message_dispatcher_class()
+        self.event_dispatcher = self.event_dispatcher_class()
     
     def stopFactory(self):
-        self.message_dispatcher.stop()
+        self.event_dispatcher.stop()
