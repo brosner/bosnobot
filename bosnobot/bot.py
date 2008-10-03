@@ -9,6 +9,7 @@ from bosnobot.conf import settings
 from bosnobot.pool import ChannelPool
 from bosnobot.channel import Channel
 from bosnobot.event import EventDispatcher
+from bosnobot import events
 from bosnobot.message import Message
 
 class IrcProtocol(irc.IRCClient):
@@ -55,7 +56,26 @@ class IrcProtocol(irc.IRCClient):
     def privmsg(self, user, channel, msg):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
-            self.factory.event_dispatcher.dispatch(Message(user, channel, msg))
+            event = events.Message(user, channel, msg)
+            self.factory.event_dispatcher.dispatch(event)
+    
+    def userJoined(self, user, channel):
+        if self.channel_pool.joined_all:
+            channel = self.channel_pool.get(channel)
+            event = events.UserJoined(user, channel)
+            self.factory.event_dispatcher.dispatch(event)
+    
+    def userLeft(self, user, channel):
+        if self.channel_pool.joined_all:
+            channel = self.channel_pool.get(channel)
+            event = events.UserLeft(user, channel)
+            self.factory.event_dispatcher.dispatch(event)
+    
+    def userKicked(self, kickee, channel, kicker, message):
+        if self.channel_pool.joined_all:
+            channel = self.channel_pool.get(channel)
+            event = events.UserKicked(kickee, channel, kicker, message)
+            self.factory.event_dispatcher.dispatch(event)
 
 class IrcBot(object):
     def __init__(self, protocol):
