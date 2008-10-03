@@ -105,7 +105,7 @@ messages to a database, this would look like::
         "bosnobot.event_handlers.database_logger.DatabaseLogger",
     )
 
-Be sure to read the message handler documentation before running with scissors
+Be sure to read the event handler documentation before running with scissors
 with this setting. TODO: write that documentation.
 
 Running the Bot
