@@ -50,6 +50,8 @@ class DatabaseLogger(object):
         self.metadata.create_all(engine)
         print buf.getvalue()
         
-    def process_message(self, message):
-        self.session.save(message)
-        self.session.commit()
+    def process_event(self, event):
+        # TODO: all events should goto the database.
+        if isinstance(event, Message):
+            self.session.save(message)
+            self.session.commit()

@@ -10,7 +10,7 @@ class FileLogger(object):
         else:
             self.stream = open(settings.FILE_LOGGER_FILENAME)
     
-    def process_message(self, message):
-        self.stream.write(str(message))
+    def process_event(self, event):
+        self.stream.write(str(event))
         self.stream.write("\n")
         self.stream.flush()
