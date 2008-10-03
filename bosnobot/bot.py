@@ -70,6 +70,11 @@ class IrcProtocol(irc.IRCClient):
             channel = self.channel_pool.get(channel)
             event = events.UserLeft(user, channel)
             self.factory.event_dispatcher.dispatch(event)
+            
+    def userQuit(self, user, message):
+        if self.channel_pool.joined_all:
+            event = events.UserQuit(user, message)
+            self.factory.event_dispatcher.dispatch(event)
     
     def userKicked(self, kickee, channel, kicker, message):
         if self.channel_pool.joined_all:

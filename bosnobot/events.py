@@ -52,6 +52,22 @@ class UserLeft(object):
             "channel": self.channel.name,
         }
 
+class UserQuit(object):
+    def __init__(self, user, message):
+        self.user = user
+        self.nickname = user.split("!", 1)[0]
+        self.message = message
+    
+    def __str__(self):
+        return "%s left (%s)" % (self.nickname, self.message)
+    
+    def as_dict(self):
+        return {
+            "kind": "quit",
+            "nickname": self.nickname,
+            "message": self.message
+        }
+
 class UserKicked(object):
     def __init__(self, kickee, channel, kicker, message):
         self.kickee = kickee
