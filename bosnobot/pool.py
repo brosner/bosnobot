@@ -19,14 +19,14 @@ class ChannelPool(object):
             yield channel
     
     def __getitem__(self, channel):
-        return self.channels[channel]
+        return self.channels[channel.lower()]
     
     def get(self, channel):
         """
         Get a channel from the pool failing silently.
         """
         try:
-            return self[channel]
+            return self[channel.lower()]
         except KeyError:
             return None
     
@@ -34,7 +34,7 @@ class ChannelPool(object):
         """
         Joins a channel and adds to the pool.
         """
-        self.channels[channel.name] = channel
+        self.channels[channel.name.lower()] = channel
         channel.protocol = self.protocol
         self.protocol.join(channel.name)
     
