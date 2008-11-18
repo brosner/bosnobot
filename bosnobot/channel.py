@@ -20,3 +20,13 @@ class Channel(object):
             reactor.callFromThread(self.protocol.msg, self.name, message)
         else:
             self.protocol.msg(self.name, message)
+    
+    def me(self, message, call_from_thread=False):
+        """
+        Tell the bot to send a me action to this channel.
+        """
+        if call_from_thread:
+            reactor.callFromThread(self.protocol.me, self.name, message)
+        else:
+            self.protocol.me(self.name, message)
+    
