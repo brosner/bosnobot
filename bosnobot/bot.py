@@ -12,7 +12,7 @@ from bosnobot.message import MessageDispatcher, Message
 
 class IrcProtocol(irc.IRCClient):
     channel_pool_class = ChannelPool
-    
+        
     def connectionMade(self):
         self.channel_pool = self.channel_pool_class(self)
         self.nickname = settings.BOT_NICKNAME
@@ -57,9 +57,10 @@ class IrcProtocol(irc.IRCClient):
             self.factory.message_dispatcher.dispatch(Message(user, channel, msg))
 
 class IrcBot(object):
+    channels = []
+    
     def __init__(self, protocol):
         self.protocol = protocol
-        self.channels = []
         for channel in settings.BOT_CHANNELS:
             self.channels.append(Channel(channel))
     
