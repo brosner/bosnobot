@@ -12,6 +12,14 @@ from bosnobot.message import MessageDispatcher, Message
 
 class IrcProtocol(irc.IRCClient):
     channel_pool_class = ChannelPool
+    
+    def lineReceived(self, line):
+        # print line
+        irc.IRCClient.lineReceived(self, line)
+    
+    def sendLine(self, line):
+        # print "sending %s" % repr(line)
+        irc.IRCClient.sendLine(self, line)
         
     def connectionMade(self):
         self.channel_pool = self.channel_pool_class(self)
