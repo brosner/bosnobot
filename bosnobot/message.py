@@ -71,11 +71,13 @@ class Message(object):
     """
     Represents a message sent over IRC.
     """
-    def __init__(self, user, channel, message):
+    def __init__(self, user, channel, message, **kwargs):
         self.user = user
         self.nickname = user.split("!", 1)[0]
         self.channel = channel
         self.message = message
+        # @@@ hack for now
+        self.action = kwargs.pop("action", False)
     
     def __str__(self):
         return self.message

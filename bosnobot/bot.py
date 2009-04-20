@@ -60,9 +60,17 @@ class IrcProtocol(irc.IRCClient):
         log.msg("joined %s" % channel.name)
     
     def privmsg(self, user, channel, msg):
+        self.dispatch_message(user, channel, msg)
+    
+    def action(self, user, channel, msg):
+        # @@@ passing in as kwarg until event refactor is complete
+        self.dispatch_message(user, channel, msg, action=True)
+    
+    def dispatch_message(self, user, channel, msg, **kwargs):
         if self.channel_pool.joined_all:
             channel = self.channel_pool.get(channel)
-            self.factory.message_dispatcher.dispatch(Message(user, channel, msg))
+            message = Message(user, channel, msg, **kwargs)
+            self.factory.message_dispatcher.dispatch(message)
 
 class IrcBot(object):
     channels = []

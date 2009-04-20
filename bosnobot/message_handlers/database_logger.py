@@ -55,5 +55,6 @@ class DatabaseLogger(object):
             "channel_id": channel_id,
             "text": message.message,
             "logged": datetime.now(),
+            "is_action": message.action,
         })
         conn.execute(ins)
