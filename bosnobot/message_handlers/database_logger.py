@@ -5,6 +5,7 @@ from cStringIO import StringIO
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import sessionmaker, mapper, relation
+from sqlalchemy.sql import select
 from bosnobot.conf import settings
 from bosnobot.channel import Channel
 from bosnobot.message import Message
@@ -18,38 +19,41 @@ class DatabaseLogger(object):
         self.session = sessionmaker(bind=self.engine)()
     
     def setup_tables(self):
-        channels_table = Table("irc_channel", self.metadata,
+        self.channels_table = Table("irc_channel", self.metadata,
             Column("id", Integer, primary_key=True),
-            Column("name", String(50)))
-        mapper(Channel, channels_table, properties={
-            "messages": relation(Message, backref="channel"),
-        })
+            Column("name", String(50)),
+        )
         
-        messages_table = Table("irc_message", self.metadata,
+        self.messages_table = Table("irc_message", self.metadata,
             Column("id", Integer, primary_key=True),
-            Column("channel_id", Integer, ForeignKey("irc_channel.id")),
+            Column("channel_id", Integer, ForeignKey("irc_channel.id"), nullable=False),
             Column("nickname", String(19)),
             Column("text", Text),
             Column("logged", DateTime, default=datetime.now),
             Column("is_action", Boolean, default=False),
-            Column("is_blocked", Boolean, default=False))
-        mapper(Message, messages_table, properties={
-            "message": messages_table.c.text,
-        })
+            Column("is_blocked", Boolean, default=False),
+        )
         
         # setup tables
         self.metadata.create_all()
-    
-    def as_sql(self):
-        buf = StringIO()
-        def buffer_output(s, p=""):
-            return buf.write(s + p)
-        engine = create_engine(settings.DATABASE_URI,
-            strategy="mock",
-            executor=buffer_output)
-        self.metadata.create_all(engine)
-        print buf.getvalue()
-        
+            
     def process_message(self, message):
-        self.session.save(message)
-        self.session.commit()
+        channels, messages = self.channels_table, self.messages_table
+        conn = self.engine.connect()
+        
+        s = select([channels], channels.c.name == message.channel.name)
+        row = conn.execute(s).fetchone()
+        if not row:
+            ins = channels.insert().values(name=message.channel.name)
+            result = conn.execute(ins)
+            channel_id = result.last_inserted_ids()[0]
+        else:
+            channel_id = row["id"]
+        
+        ins = messages.insert().values(**{
+            "nickname": message.nickname,
+            "channel_id": channel_id,
+            "text": message.message,
+            "logged": datetime.now(),
+        })
+        conn.execute(ins)
